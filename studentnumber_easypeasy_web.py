@@ -16,7 +16,7 @@ st.set_page_config(page_title="예상학생수왕초보만", layout="centered")
 # 상수 정의
 YIELD_RATE_FILE = "student_yield_rate.json"
 HIGH_SCHOOL_YIELD_RATE_FILE = "high_school_yield_rate.json"
-VERSION = "v1.0.1(2025. 5. 7.)"  # 버전 상수 추가
+VERSION = "v1.1.1(2025. 5. 7.)"  # 버전 상수 추가
 
 # 숫자 포맷팅 함수
 def format_number(number):
@@ -309,7 +309,7 @@ def main():
     )
     st.markdown(f'<div class="version-text">{VERSION}</div>', unsafe_allow_html=True)
 
-    tabs = st.tabs(["📌 앱 안내", "🧮 예상 학생 수", "📊 누적 계산 결과", "⚙️ 학생 발생률 정보 관리"])
+    tabs = st.tabs(["📌 앱 안내", "🧮 예상 학생 수", "📊 계산 결과 누적", "⚙️ 학생 발생률 정보 관리"])
     intro_tab, calc_tab, result_tab, rate_tab = tabs
 
     # 1. 앱 안내 탭
@@ -396,7 +396,7 @@ def main():
             calc_tab.error("❌ 계산에 필요한 모든 값을 입력해주세요.")
 
     # 3. 결과 탭
-    result_tab.markdown('<p class="tab-header-style">📊 누적 계산 결과</p>', unsafe_allow_html=True)
+    result_tab.markdown('<p class="tab-header-style">📊 계산 결과 누적</p>', unsafe_allow_html=True)
     if "calculated_results" not in st.session_state or not st.session_state.calculated_results:
         result_tab.info("'🧮 예상 학생 수' 탭에서 계산을 먼저 진행해주세요.")
     else:
