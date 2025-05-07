@@ -16,7 +16,7 @@ st.set_page_config(page_title="예상학생수왕초보만", layout="centered")
 # 상수 정의
 YIELD_RATE_FILE = "student_yield_rate.json"
 HIGH_SCHOOL_YIELD_RATE_FILE = "high_school_yield_rate.json"
-VERSION = "v1.0.0(2025. 5. 6.)"  # 버전 상수 추가
+VERSION = "v1.0.1(2025. 5. 7.)"  # 버전 상수 추가
 
 # 숫자 포맷팅 함수
 def format_number(number):
@@ -181,10 +181,10 @@ def calculate_student_counts(city, region, housing_type, subtype, scale, units, 
     high_school_personnel = high_school_data.get("인원", 0)
     high_school_rate = high_school_data.get("발생률", 0)
 
-    e = round(units * e_rate / 100, 2)
-    k = round(e * 0.5, 2)  # 유치원생은 초등학생의 50%
-    m = round(units * m_rate / 100, 2)
-    h = round(units * high_school_personnel * high_school_rate / 100, 2)
+    e = round(units * e_rate / 100)  # Round to nearest integer
+    k = round(e * 0.5)  # Round to nearest integer, kindergarten is 50% of elementary
+    m = round(units * m_rate / 100)  # Round to nearest integer
+    h = round(units * high_school_personnel * high_school_rate / 100)  # Round to nearest integer
     h_basis = f"세대수 X {format_number(high_school_personnel)}명 X {format_percentage(high_school_rate)}%"
 
     result_table = f"""
@@ -195,7 +195,7 @@ def calculate_student_counts(city, region, housing_type, subtype, scale, units, 
     tab.success("✅ 예상 학생 수:\n" + result_table)
 
     calculation_basis = f"""
-📝 **추정 학생 수 계산 근거**:
+📝 **예상 학생 수 계산 근거**:
 - **유치원생**: 예상 초등학생 수 X 50%
 - **초등학생**: 세대수 X 초등학생 발생률 {format_percentage(e_rate)}%({region} 발생률 적용)
 - **중학생**: 세대수 X 중학생 발생률 {format_percentage(m_rate)}%({region} 발생률 적용)
@@ -329,9 +329,10 @@ def main():
         ⚠️ **주의 및 참고 사항**
         - 앱 종료 후 재실행 시 기존에 업로드한 학생 발생률 목록이 삭제되고 초기 예시로 돌아갑니다.
         - 반드시 작성 후 저장한 최신 '학생 발생률 목록' 엑셀 파일을 삭제하지 말고 보관해주세요.
-        - '학생 발생률 목록' 엑셀 파일 내 정보가 외부로 유출되지 않게 유의해주세요.
+        - 업로드한 '학생 발생률 목록' 엑셀 파일의 정보는 서버에 남지 않으며 타 이용자가 알 수 없습니다.
+        - '학생 발생률 목록' 엑셀 파일의 정보가 외부로 유출되지 않게 유의해주세요.
 
-        📧 **건의사항 → hanjy3203@korea.kr**
+        📧 **건의 사항 → hanjy3203@korea.kr**
         """
     )
 
@@ -434,7 +435,7 @@ def main():
         '<p class="tab-header-style">⚙️ 학생 발생률 정보 관리</p>',
         unsafe_allow_html=True,
     )
-    rate_tab.info("①기존 목록 다운 ②수정 및 보완 ③엑셀 업로드 → 자동 업데이트")
+    rate_tab.info("①기존 목록 다운로드 ②엑셀 내 정보 작성 및 수정 ③엑셀 업로드 → 자동 연동")
     rate_tab.subheader("📤 엑셀 업로드")
     rate_tab.markdown(
         """
