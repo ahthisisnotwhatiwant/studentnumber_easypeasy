@@ -463,7 +463,7 @@ div[data-testid="stFileUploader"] {
         with st.spinner("엑셀 파일 처리 중..."):
             process_excel(excel_file, rate_tab)
 
-    rate_tab.subheader("📊 저장된 학생 발생률 목록")
+    rate_tab.subheader("📊 저장된 학생 발생률 정보")
     rate_tab.markdown(
         '<div style="text-align: right; font-size: 0.8em;">(단위: %, %, 명, %)</div>',
         unsafe_allow_html=True,
